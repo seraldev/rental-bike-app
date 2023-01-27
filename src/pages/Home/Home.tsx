@@ -1,6 +1,12 @@
+import { BikesList } from '.';
+import { BikesListProvider } from '../../context';
 
-export const Home = () => {
+const HomePage = () => {
     return (
-        <div>Home</div>
+        <BikesListProvider>
+            <BikesList />
+        </BikesListProvider>
     )
 }
+
+export default HomePage;
