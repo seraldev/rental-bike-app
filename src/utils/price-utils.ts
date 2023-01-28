@@ -2,25 +2,20 @@ const DAY_LIMIT: number = 15;
 const PRICE_BASE_BEFORE_LIMIT: number = 10;
 const PRICE_BASE_AFTER_LIMIT: number = 12;
 
+const daysBikeType = {
+    'old': 3,
+    'normal': 5
+};
+
 export const calculatePrice = ({ type, date, days }): number => {
-    if(!days || days === 0) return 0;
 
-    const priceBase: number = date.date() >= DAY_LIMIT ? PRICE_BASE_AFTER_LIMIT : PRICE_BASE_BEFORE_LIMIT;
+    if (!days || days === 0 || !date) return 0;
 
-    let newPrice: number = 0;
+    const dateDay: number = parseInt(date.split('-')[2]);
+    const priceBase: number = dateDay >= DAY_LIMIT ? PRICE_BASE_AFTER_LIMIT : PRICE_BASE_BEFORE_LIMIT;
 
-    switch (type) {
-        case 'electric':
-            newPrice = priceBase * days;
-            break;
-        case 'old':
-            newPrice = days <= 3 ? priceBase : priceBase + (priceBase * (days - 3));
-            break;
+    if (type === 'electric') return priceBase * days;
 
-        default:
-            newPrice = days <= 5 ? priceBase : priceBase + (priceBase * (days - 5));
-            break;
-    }
+    return days <= daysBikeType[type] ? priceBase : priceBase + (priceBase * (days - daysBikeType[type]));
 
-    return newPrice;
 }

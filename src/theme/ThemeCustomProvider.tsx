@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { darkTheme, lightTheme } from '.';
+import { darkTheme } from '.';
 
 interface Props {
     children?: ReactNode;

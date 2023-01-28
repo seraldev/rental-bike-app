@@ -1,18 +1,16 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, TextField } from '@mui/material';
 import { addRental, RootState } from '../../redux';
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, TextField, Typography } from '@mui/material';
-import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { BikeDetail } from '../../components';
 import { useForm } from '../../hooks';
-import { useState } from 'react';
+import { BikeDetail } from '../../components';
 
 const initialForm = {
     name: '',
     email: '',
     phone: '',
-    date: null,
+    date: undefined,
     days: undefined,
     price: 0,
 };
@@ -22,7 +20,7 @@ const RentalPage = () => {
     const { bike } = useSelector((state: RootState) => state.rental);
     const dispatch = useDispatch();
 
-    const { formState, handleChangeInput, handleChangeDatePicker } = useForm({ initialForm, bike });
+    const { formState, handleChangeInput, handleChangeDate } = useForm({ initialForm, bike });
 
     const { name, email, phone, date, days, price } = formState;
 
@@ -146,15 +144,17 @@ const RentalPage = () => {
                         onChange={handleChangeInput}
                     />
 
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DesktopDatePicker
-                            label="Date start"
-                            inputFormat="DD/MM/YYYY"
-                            value={date}
-                            onChange={handleChangeDatePicker}
-                            renderInput={(params) => <TextField {...params} fullWidth />}
-                        />
-                    </LocalizationProvider>
+                    <TextField
+                        label="Date start"
+                        type="date"
+                        name="date"
+                        fullWidth
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        value={date || ''}
+                        onChange={handleChangeDate}
+                    />
 
                     <TextField
                         id="rental-days"
